@@ -48,7 +48,7 @@ class datasetDeseneization:
         for imageName in imageNames:
 
             image = cv2.imread(os.path.join(self.datasetPath,imageName))
-
+            imageShape=image.shape
             #get bounding box
             #bounding box={}
             boundingBox={'x_top':100,'x_bottom':400,'y_top':100,'y_bottom':400}
@@ -76,8 +76,9 @@ class datasetDeseneization:
             input_image = np.concatenate([image, mask], axis=2)
 
             result = sess.run(output, feed_dict={input_image_ph: input_image})
-            print(os.path.join(self.resultPath,imageName))
-            cv2.imwrite(os.path.join(self.resultPath,imageName), result[0][:, :, ::-1])
+            outputImage=result[0][:, :, ::-1]
+            outputImage=cv2.resize(outputImage,(imageShape[1],imageShape[0]))
+            cv2.imwrite(os.path.join(self.resultPath,imageName),outputImage )
             
 
 
