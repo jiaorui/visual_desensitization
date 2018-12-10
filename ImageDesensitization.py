@@ -64,16 +64,11 @@ if __name__=='__main__':
     ID=ImageDesensitization()
     boundingBoxes=[{'x_top':10,'x_bottom':2000,'y_top':10,'y_bottom':2000},{'x_top':200,'x_bottom':300,'y_top':200,'y_bottom':300}]
     image=cv2.imread("C:\\Users\\jiao\\Desktop\\visualDesensitization\\4312976227.jpg")
-    
     result=ID.imageMosaic(image,boundingBoxes)
 
-    nums=[1,2,3,4,5,6,7]
-    max_list=map(nums.index,heapq.nlargest(2,nums))
 
-    for error in max_list:
-        print(error)
-
-
+    a=os.path.dirname('/raid/jiaorui/')
+    print(a)
 
 
 

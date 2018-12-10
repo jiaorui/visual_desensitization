@@ -17,11 +17,12 @@ from inpaint_model import InpaintCAModel
 import ImageDesensitization as ID
 import json
 import heapq
+import random
 
 
 class datasetDeseneization:
 
-    def __init__(self,datasetPath="",labelPath="",resultPath='',config=""):
+    def __init__(self,datasetPath="",labelPath="",resultPath="",labelList=[]):
         self.datasetPath=datasetPath
         self.labelPath=labelPath
         self.resultPath=resultPath
@@ -36,7 +37,7 @@ class datasetDeseneization:
 
             cv2.imwrite(os.path.join(resultPath,imageName),result)
 
-    def getImageShow(self,number=1):
+    def getImageShowMinError(self,number=1):
 
         imageNames=os.listdir(self.datasetPath)
         errors=[]
@@ -49,6 +50,11 @@ class datasetDeseneization:
         minErrors=map(errors.index,heapq.nsmallest(number,errors))
 
         return imageNames[minErrors]
+
+    def getImageShowRandom(self,number=1):
+
+        imageNames=os.listdir(self.datasetPath)
+        imageNames[random.sample(range(len(imageNames)),number)]
 
     def getBoundingBox(self,imageName):
 
