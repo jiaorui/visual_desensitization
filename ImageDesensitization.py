@@ -67,8 +67,4 @@ if __name__=='__main__':
     result=ID.imageMosaic(image,boundingBoxes)
 
 
-    a=os.path.dirname('/raid/jiaorui/')
-    print(a)
-
-
 
