@@ -14,6 +14,10 @@ import tensorflow as tf
 import neuralgym as ng
 
 from inpaint_model import InpaintCAModel
+import ImageDesensitization as ID
+import json
+import heapq
+
 
 class datasetDeseneization:
 
@@ -21,6 +25,45 @@ class datasetDeseneization:
         self.datasetPath=datasetPath
         self.labelPath=labelPath
         self.resultPath=resultPath
+
+    def imageMosaic(self):
+
+        imageNames=os.listdir(self.datasetPath)
+        for imageName in imageNames:
+            image=cv2.imread(os.path.join(self.datasetPath,imageName))
+            boundingBoxes=self.getBoundingBox(imageName)
+            result=ID.imageMosaic(image=image,boundingBoxes=boundingBoxes)
+
+            cv2.imwrite(os.path.join(resultPath,imageName),result)
+
+    def getImageShow(self,number=1):
+
+        imageNames=os.listdir(self.datasetPath)
+        errors=[]
+        for imageName in imageNames:
+            imageSrc=cv2.imread(os.path.join(self.datasetPath,imageName))
+            imageDes=cv2.imread(os.path.join(self.resultPath,imageName))
+            error=np.mean(np.abs(imageSrc,imageDes))
+            errors.append(error)
+
+        minErrors=map(errors.index,heapq.nsmallest(number,errors))
+
+        return imageNames[minErrors]
+
+    def getBoundingBox(self,imageName):
+
+        jsonFilePath=
+
+        boundingBoxes=[]
+        with open(jsonFilePath) as load_f:
+            imageJson=json.load(load_f)
+        
+
+        return boundingBoxes
+
+    def errorL1(self,imageSrc,imageDes):
+
+        np.mean((np.abs(imageSrc-imageDes))/imageSrc)
 
     def imageInpainting(self,imageHeight=512,imageWidth=680,checkpointDir=""):
 
@@ -49,18 +92,18 @@ class datasetDeseneization:
 
             image = cv2.imread(os.path.join(self.datasetPath,imageName))
             imageShape=image.shape
-            #get bounding box
-            #bounding box={}
-            boundingBox={'x_top':100,'x_bottom':400,'y_top':100,'y_bottom':400}
+            
+
+            self.getBoundingBox(imageName,)
+            boundingBoxes=[{'x_top':100,'x_bottom':400,'y_top':100,'y_bottom':400}]
 
             mask=np.zeros(image.shape,dtype=np.uint8)
-
-            x1=boundingBox['x_top']
-            x2=boundingBox['x_bottom']
-            y1=boundingBox['y_top']
-            y2=boundingBox['y_bottom']
-
-            mask[x1:x2,y1:y2,:]=255
+            for boundingBox in boundingBoxes:
+                x1=boundingBox['x_top']
+                x2=boundingBox['x_bottom']
+                y1=boundingBox['y_top']
+                y2=boundingBox['y_bottom']
+                mask[x1:x2,y1:y2,:]=255
 
             image = cv2.resize(image, (imageWidth, imageHeight))
             mask = cv2.resize(mask, (imageWidth, imageHeight))
