@@ -59,7 +59,10 @@ class datasetDeseneization:
     def getImageShowRandom(self,number=1):
 
         imageNames=os.listdir(self.datasetPath)
-        return imageNames[random.sample(range(len(imageNames)),number)]
+        showImages=[]
+        for index in random.sample(range(len(imageNames)),number):
+            showImages.append(imageNames[index])
+        return showImages
 
     def getBoundingBox(self,imageName):
 
