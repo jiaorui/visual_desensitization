@@ -50,7 +50,7 @@ class datasetDeseneization:
 
         minErrors=map(errors.index,heapq.nsmallest(number,errors))
 
-        return imageNames[minErrors]
+        return imageNames[list(minErrors)]
 
     def getImageShowRandom(self,number=1):
 
@@ -125,7 +125,7 @@ if __name__=='__main__':
 
     DD=datasetDeseneization(datasetPath=datasetPath,resultPath=resultPath)
     #DD.imageInpainting(imageHeight=512,imageWidth=680,checkpointDir="/datapool/workspace/jiaorui/visual_desensitization/model_logs/Places2")    
-    images=DD.getImageShowMinError(number=2)
+    images=DD.getImageShowMinError(number=5)
     print(images)
-    images=DD.getImageShowRandom(number=2)
+    images=DD.getImageShowRandom(number=5)
     print(images)
