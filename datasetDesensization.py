@@ -110,6 +110,7 @@ class datasetDeseneization:
             input_image = np.concatenate([image, mask], axis=2)
 
             result = sess.run(output, feed_dict={input_image_ph: input_image})
+
             outputImage=result[0][:, :, ::-1]
             outputImage=cv2.resize(outputImage,(imageShape[1],imageShape[0]))
             cv2.imwrite(os.path.join(self.resultPath,imageName),outputImage )
@@ -119,8 +120,9 @@ class datasetDeseneization:
 
 if __name__=='__main__':
 
-    datasetPath="/raid/workspace/jiaorui/generative_inpainting/dataset/image"
-    resultPath="/raid/workspace/jiaorui/generative_inpainting/dataset/result"
+    datasetPath="/datapool/workspace/jiaorui/image"
+    resultPath="/datapool/workspace/jiaorui/result"
 
     DD=datasetDeseneization(datasetPath=datasetPath,resultPath=resultPath)
     DD.imageInpainting(imageHeight=512,imageWidth=680,checkpointDir="/raid/workspace/jiaorui/generative_inpainting/model_logs/Places2")
+    
