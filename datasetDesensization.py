@@ -120,8 +120,8 @@ class datasetDeseneization:
 
 if __name__=='__main__':
 
-    datasetPath="/datapool/workspace/jiaorui/image"
-    resultPath="/datapool/workspace/jiaorui/result"
+    datasetPath="/datapool/workspace/jiaorui/visual_desensitization/image"
+    resultPath="/datapool/workspace/jiaorui/visual_desensitization/result"
 
     DD=datasetDeseneization(datasetPath=datasetPath,resultPath=resultPath)
     DD.imageInpainting(imageHeight=512,imageWidth=680,checkpointDir="/datapool/workspace/jiaorui/visual_desensitization/model_logs/Places2")
