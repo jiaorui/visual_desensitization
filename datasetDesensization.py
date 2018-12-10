@@ -51,8 +51,8 @@ class datasetDeseneization:
         minErrors=map(errors.index,heapq.nsmallest(number,errors))
 
         showImages=[]
-        for minerror in minerrors:
-            showImages.append(imageNames[minerror])
+        for minError in minErrors:
+            showImages.append(imageNames[minError])
 
         return showImages
 
