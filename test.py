@@ -10,4 +10,7 @@ import pickle
 
 
 data=pickle.load(open("/datapool/workspace/yuanmu/demo_labelset/Stanford40/run_facerecognition_imgpath2res.pkl","rb"))
-print(data)
+
+test=data['/datapool/workspace/yuanmu/demo_datasets/JPEGImages//looking_through_a_telescope_118.jpg']
+print(test)
+print(type(test))
