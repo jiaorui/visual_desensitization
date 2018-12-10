@@ -50,7 +50,11 @@ class datasetDeseneization:
 
         minErrors=map(errors.index,heapq.nsmallest(number,errors))
 
-        return imageNames[np.array(list(minErrors),dtype=np.int32)]
+        showImages=[]
+        for minerror in minerrors:
+            showImages.append(imageNames[minerror])
+
+        return showImages
 
     def getImageShowRandom(self,number=1):
 

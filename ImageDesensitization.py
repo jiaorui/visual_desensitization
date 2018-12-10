@@ -63,8 +63,13 @@ if __name__=='__main__':
 
     ID=ImageDesensitization()
     boundingBoxes=[{'x_top':10,'x_bottom':2000,'y_top':10,'y_bottom':2000},{'x_top':200,'x_bottom':300,'y_top':200,'y_bottom':300}]
-    image=cv2.imread("C:\\Users\\jiao\\Desktop\\visualDesensitization\\4312976227.jpg")
-    result=ID.imageMosaic(image,boundingBoxes)
-
-
+    
+    #image=cv2.imread("C:\\Users\\jiao\\Desktop\\visualDesensitization\\4312976227.jpg")
+    #result=ID.imageMosaic(image,boundingBoxes)
+    a=[1,2,3,4,5]
+    ab=np.array([1,2,3])
+    print(ab)
+    abc=a[ab]
+    print(abc)
+    
 
