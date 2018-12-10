@@ -67,7 +67,11 @@ if __name__="__main__":
         dataDesen.imageInpainting()
         showImages=dataDesen.getImageShowMinError()
 
+    result={"datasetPath":datasetPath,"resultPath":resultPath,"images":showImages}
 
+    with open("","w") as f:
+        json.dump(result,f)
+        
 
 
     

@@ -26,6 +26,7 @@ class datasetDeseneization:
         self.datasetPath=datasetPath
         self.labelPath=labelPath
         self.resultPath=resultPath
+        self.labelList=labelList
 
     def imageMosaic(self):
 
@@ -54,22 +55,12 @@ class datasetDeseneization:
     def getImageShowRandom(self,number=1):
 
         imageNames=os.listdir(self.datasetPath)
-        imageNames[random.sample(range(len(imageNames)),number)]
+        return imageNames[random.sample(range(len(imageNames)),number)]
 
     def getBoundingBox(self,imageName):
 
-        jsonFilePath=
-
-        boundingBoxes=[]
-        with open(jsonFilePath) as load_f:
-            imageJson=json.load(load_f)
-        
-
+        boundingBoxes=[{'x_top':10,'x_bottom':200,'y_top':10,'y_bottom':200}]
         return boundingBoxes
-
-    def errorL1(self,imageSrc,imageDes):
-
-        np.mean((np.abs(imageSrc-imageDes))/imageSrc)
 
     def imageInpainting(self,imageHeight=512,imageWidth=680,checkpointDir=""):
 
@@ -91,18 +82,12 @@ class datasetDeseneization:
             assign_ops.append(tf.assign(var, var_value))
         sess.run(assign_ops)
 
-        
         imageNames=os.listdir(self.datasetPath)
-
         for imageName in imageNames:
-
             image = cv2.imread(os.path.join(self.datasetPath,imageName))
             imageShape=image.shape
-            
 
-            self.getBoundingBox(imageName,)
-            boundingBoxes=[{'x_top':100,'x_bottom':400,'y_top':100,'y_bottom':400}]
-
+            boundingBoxes=self.getBoundingBox(imageName)
             mask=np.zeros(image.shape,dtype=np.uint8)
             for boundingBox in boundingBoxes:
                 x1=boundingBox['x_top']
@@ -128,7 +113,7 @@ class datasetDeseneization:
             outputImage=result[0][:, :, ::-1]
             outputImage=cv2.resize(outputImage,(imageShape[1],imageShape[0]))
             cv2.imwrite(os.path.join(self.resultPath,imageName),outputImage )
-            
+
 
 
 
@@ -137,5 +122,5 @@ if __name__=='__main__':
     datasetPath="/raid/workspace/jiaorui/generative_inpainting/dataset/image"
     resultPath="/raid/workspace/jiaorui/generative_inpainting/dataset/result"
 
-    DD=datasetDeseneization(datasetPath,resultPath=resultPath)
-    DD.imageInpainting(checkpointDir="/raid/workspace/jiaorui/generative_inpainting/model_logs/Places2")
+    DD=datasetDeseneization(datasetPath=datasetPath,resultPath=resultPath)
+    DD.imageInpainting(imageHeight=512,imageWidth=680,checkpointDir="/raid/workspace/jiaorui/generative_inpainting/model_logs/Places2")
