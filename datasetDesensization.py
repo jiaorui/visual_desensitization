@@ -41,6 +41,10 @@ class datasetDeseneization:
     def getImageShowMinError(self,number=1):
 
         imageNames=os.listdir(self.datasetPath)
+
+        if(number>len(imageNames)):
+            number=len(imageNames)
+
         errors=[]
         for imageName in imageNames:
             imageSrc=cv2.imread(os.path.join(self.datasetPath,imageName))
@@ -59,6 +63,8 @@ class datasetDeseneization:
     def getImageShowRandom(self,number=1):
 
         imageNames=os.listdir(self.datasetPath)
+        if(number>len(imageNames)):
+            number=len(imageNames)
         showImages=[]
         for index in random.sample(range(len(imageNames)),number):
             showImages.append(imageNames[index])
@@ -132,7 +138,7 @@ if __name__=='__main__':
 
     DD=datasetDeseneization(datasetPath=datasetPath,resultPath=resultPath)
     #DD.imageInpainting(imageHeight=512,imageWidth=680,checkpointDir="/datapool/workspace/jiaorui/visual_desensitization/model_logs/Places2")    
-    images=DD.getImageShowMinError(number=5)
+    images=DD.getImageShowMinError(number=11)
     print(images)
     images=DD.getImageShowRandom(number=5)
     print(images)
