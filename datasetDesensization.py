@@ -194,4 +194,5 @@ if __name__=='__main__':
     for imageName in imageNames:
         DD.getBoundingBox(imageName)
     '''
+    DD.getBoundingBox(imageName='abc')
     
