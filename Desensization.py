@@ -8,7 +8,7 @@
 import os
 import sys
 import datasetDesensization as DD
-import imageDesensization as ID
+import ImageDesensitization as ID
 import numpy as np
 import argparse
 import json
@@ -22,8 +22,10 @@ parser.add_argument('--config', default='', type=str,
                     help='config file: what and how about desensization')
 parser.add_argument('--result', default='', type=str,
                     help='The file path of result')
+parser.add_argument('--show',default='',type=str,
+                    help='The path of show image')
 
-if __name__="__main__":
+if __name__=="__main__":
 
     args=parser.parse_args()
 
@@ -31,6 +33,12 @@ if __name__="__main__":
     labelPath=args.label
     configPath=args.config
     resultPath=args.result
+    showPath=args.show
+
+    datasetPath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\datasetJiaorui"
+    labelPath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\label"
+    configPath='C:\\Users\\jiao\\Desktop\\visualDesensitization\\graphmask.json'
+    showPath='C:\\Users\\jiao\\Desktop\\visualDesensitization\\draw'
 
     if(not os.path.exists(datasetPath)):
         print("the source data path does not exist")
@@ -41,10 +49,10 @@ if __name__="__main__":
         sys.exit(0)
 
     if(labelPath==''):
-        pass
+        labelPath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\label"
 
     if(resultPath==''):
-        pass
+        resultPath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\result"
 
 
     with open(configPath) as f_load:
@@ -54,26 +62,20 @@ if __name__="__main__":
     content=config["content"]
 
     labelList=[]
-    for key,value in content.item():
+    for key,value in content.items():
         if(value==1):
             labelList.append(key.replace("_"," "))
 
-    dataDesen=DD.datasetDeseneization(datasetPath=datasetPath,labelPath=labelPath,resultPath=resultPath,labelList=labelList)
+    dataDesen=DD.datasetDeseneization(datasetPath=datasetPath,labelPath=labelPath,
+        resultPath=resultPath,labelList=labelList)
 
     if(method==0):
         dataDesen.imageMosaic()
-        showImages=dataDesen.getImageShowRandom()
+        dataDesen.getImageShowRandom(number=10)
+        dataDesen.drawRectangle(showPath)
     else:
         dataDesen.imageInpainting()
-        showImages=dataDesen.getImageShowMinError()
-
-    result={"datasetPath":datasetPath,"resultPath":resultPath,"images":showImages}
-
-    with open("","w") as f:
-        json.dump(result,f)
-        
-
-
-    
+        dataDesen.getImageShowMinError(number=10)
+        dataDesen.drawRectangle(showPath)
 
 

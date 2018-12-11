@@ -36,9 +36,9 @@ class ImageDesensitization:
             y1=boundingBox['y_top']
             y2=boundingBox['y_bottom']
 
-            selectedImage=srcCopy[x1:x2,y1:y2]
+            selectedImage=srcCopy[y1:y2,x1:x2]
             mosaicArea=self.mosaic(selectedImage,nsize)
-            srcCopy[x1:x2,y1:y2]=cv2.addWeighted(mosaicArea,0.65,selectedImage,0.35,0)
+            srcCopy[y1:y2,x1:x2]=cv2.addWeighted(mosaicArea,0.65,selectedImage,0.35,0)
         return srcCopy
 
     def imageMaskGeneration(self,imageShape,boundingBox):
@@ -64,12 +64,6 @@ if __name__=='__main__':
     ID=ImageDesensitization()
     boundingBoxes=[{'x_top':10,'x_bottom':2000,'y_top':10,'y_bottom':2000},{'x_top':200,'x_bottom':300,'y_top':200,'y_bottom':300}]
     
-    #image=cv2.imread("C:\\Users\\jiao\\Desktop\\visualDesensitization\\4312976227.jpg")
-    #result=ID.imageMosaic(image,boundingBoxes)
-    a=[1,2,3,4,5]
-    ab=np.array([1,2,3])
-    print(ab)
-    abc=a[ab]
-    print(abc)
     
+
 

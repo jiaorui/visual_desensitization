@@ -20,6 +20,7 @@ import heapq
 import random
 import shutil
 import pickle
+import math
 
 
 class datasetDeseneization:
@@ -35,10 +36,12 @@ class datasetDeseneization:
 
         imageNames=os.listdir(self.datasetPath)
         for imageName in imageNames:
+            print(imageName)
             image=cv2.imread(os.path.join(self.datasetPath,imageName))
+            print(image.shape)
             boundingBoxes=self.getBoundingBox(imageName)
             result=ID.ImageDesensitization().imageMosaic(image=image,boundingBoxes=boundingBoxes)
-            cv2.imwrite(os.path.join(resultPath,imageName),result)
+            cv2.imwrite(os.path.join(self.resultPath,imageName),result)
 
 
     def drawRectangle(self,path):
@@ -99,6 +102,9 @@ class datasetDeseneization:
 
     def getBoundingBox(self,imageName):
 
+        image=cv2.imread(os.path.join(self.datasetPath,imageName))
+        height,width,_=image.shape
+
         facePath=os.path.join(self.labelPath,"run_facerecognition_imgpath2res.pkl")
         objectPath=os.path.join(self.labelPath,"run_darknet_imgpath2res.pkl")
 
@@ -126,6 +132,9 @@ class datasetDeseneization:
             objectBoxes=[]
             print("there is no the key"+key)
 
+        #print(faceBoxes)
+        #print(objectBoxes)
+
         boundingBoxes=[]
         for face in faceBoxes:
             top,right,bottom,left=face
@@ -135,13 +144,17 @@ class datasetDeseneization:
             boundingBox['y_top']=top
             boundingBox['y_bottom']=bottom
             boundingBoxes.append(boundingBox)
-        for objectBox in objectBoxes:
-            if(objectBox[0] in self.labelList):
+
+        for (label,conf,(x,y,w,h)) in objectBoxes:
+            if(label in self.labelList):
                 boundingBox={}
-                boundingBox['x_top']=objectBox[2][0]
-                boundingBox['x_bottom']=objectBox[2][1]
-                boundingBox['y_top']=objectBox[2][2]
-                boundingBox['y_bottom']=objectBox[2][3]
+                boundingBox['x_top']=int(max(x-w*0.5,0))
+                boundingBox['x_bottom']=int(min(x+w*0.5,height))
+                boundingBox['y_top']=int(max(y-h*0.5,0))
+                boundingBox['y_bottom']=int(min(y+h*0.5,width))
+
+                print((x,y,w,h))
+                print(boundingBox)
                 boundingBoxes.append(boundingBox)
 
         return boundingBoxes
@@ -219,6 +232,6 @@ if __name__=='__main__':
     
     imageNames=os.listdir(datasetPath)
     for imageName in imageNames:
+        print(imageName)
         print(DD.getBoundingBox(imageName))
     
-   
