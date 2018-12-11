@@ -109,16 +109,40 @@ class datasetDeseneization:
 
         key=os.path.join(fixedValue,imageName)
 
-        print(key)
-        key='/datapool/workspace/yuanmu/demo_datasets/JPEGImages/looking_through_a_telescope_118.jpg'
+        #pay attention: the key 
+        
+        if('face' in self.labelList):
+            try:
+                faceBoxes=faceData[fixedValue+'/'+imageName]
+            except:
+                faceBoxes=[]
+                print("there is no the key "+fixedValue+'/'+imageName)
+        else:
+            faceBoxes=[]
 
-        #faceBox=faceData[key]
-        objectBox=objectData[key]
-
-        #print(faceBox)
-        print(objectBox)
+        try:
+            objectBoxes=objectData[key]
+        except:
+            objectBoxes=[]
+            print("there is no the key"+key)
 
         boundingBoxes=[]
+        for face in faceBoxes:
+            top,right,bottom,left=face
+            boundingBox={}
+            boundingBox['x_top']=left
+            boundingBox['x_bottom']=right
+            boundingBox['y_top']=top
+            boundingBox['y_bottom']=bottom
+            boundingBoxes.append(boundingBox)
+        for objectBox in objectBoxes:
+            if(objectBox[0] in self.labelList):
+                boundingBox={}
+                boundingBox['x_top']=objectBox[2][0]
+                boundingBox['x_bottom']=objectBox[2][1]
+                boundingBox['y_top']=objectBox[2][2]
+                boundingBox['y_bottom']=objectBox[2][3]
+                boundingBoxes.append(boundingBox)
 
         return boundingBoxes
         
@@ -181,12 +205,12 @@ class datasetDeseneization:
 
 if __name__=='__main__':
 
-    datasetPath="/datapool/workspace/jiaorui/datasetJiaorui"
+    datasetPath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\datasetFace"
     resultPath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\result"
-    labelPath="/datapool/workspace/jiaorui/dataset_label"
+    labelPath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\label"
     drawPath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\draw"
-
-    DD=datasetDeseneization(datasetPath=datasetPath,resultPath=resultPath,labelPath=labelPath)
+    labelList=['face','person']
+    DD=datasetDeseneization(datasetPath=datasetPath,resultPath=resultPath,labelPath=labelPath,labelList=labelList)
     #DD.imageInpainting(imageHeight=512,imageWidth=680,checkpointDir="/datapool/workspace/jiaorui/visual_desensitization/model_logs/Places2")    
     #DD.imageMosaic()
     #DD.getImageShowMinError(number=5)
@@ -195,6 +219,6 @@ if __name__=='__main__':
     
     imageNames=os.listdir(datasetPath)
     for imageName in imageNames:
-        DD.getBoundingBox(imageName)
+        print(DD.getBoundingBox(imageName))
     
    
