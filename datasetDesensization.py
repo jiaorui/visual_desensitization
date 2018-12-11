@@ -117,7 +117,7 @@ class datasetDeseneization:
         boundingBoxes=[]
 
         return boundingBoxes
-        '''
+        
 
     def imageInpainting(self,imageHeight=512,imageWidth=680,checkpointDir=""):
 
