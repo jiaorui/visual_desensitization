@@ -107,11 +107,7 @@ class datasetDeseneization:
         faceData=pickle.load(open(facePath,"rb"))
         objectData=pickle.load(open(objectPath,"rb"))
 
-        print(faceData)
-        '''
         key=os.path.join(fixedValue,imageName)
-        key="/datapool/workspace/yuanmu/demo_datasets/JPEGImages/looking_through_a_telescope_118.jpg"
-       
         faceBox=faceData[key]
         objectBox=objectData[key]
 
@@ -191,9 +187,9 @@ if __name__=='__main__':
     #DD.imageMosaic()
     #DD.getImageShowMinError(number=5)
     #DD.drawRectangle(path=drawPath)
-    '''
+    
     imageNames=os.listdir(datasetPath)
     for imageName in imageNames:
         DD.getBoundingBox(imageName)
-    '''
-    DD.getBoundingBox(imageName="abc")
+    
+    
