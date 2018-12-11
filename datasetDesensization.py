@@ -19,6 +19,7 @@ import json
 import heapq
 import random
 import shutil
+import pickle
 
 
 class datasetDeseneization:
@@ -98,8 +99,29 @@ class datasetDeseneization:
 
     def getBoundingBox(self,imageName):
 
-        boundingBoxes=[{'x_top':10,'x_bottom':200,'y_top':10,'y_bottom':200}]
+        facePath=os.path.join(self.labelPath,"run_facerecognition_imgpath2res.pkl")
+        objectPath=os.path.join(self.labelPath,"run_darknet_imgpath2res.pkl")
+
+        fixedValue="/datapool/workspace/yuanmu/demo_datasets/JPEGImages/"
+
+        faceData=pickle.load(open(facePath,"rb"))
+        objectData=pickle.load(open(objectPath,"rb"))
+
+        print(faceData)
+        '''
+        key=os.path.join(fixedValue,imageName)
+        key="/datapool/workspace/yuanmu/demo_datasets/JPEGImages/looking_through_a_telescope_118.jpg"
+       
+        faceBox=faceData[key]
+        objectBox=objectData[key]
+
+        print(faceBox)
+        print(objectBox)
+
+        boundingBoxes=[]
+
         return boundingBoxes
+        '''
 
     def imageInpainting(self,imageHeight=512,imageWidth=680,checkpointDir=""):
 
@@ -159,13 +181,19 @@ class datasetDeseneization:
 
 if __name__=='__main__':
 
-    datasetPath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\image"
+    datasetPath="/datapool/workspace/jiaorui/datasetJiaorui"
     resultPath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\result"
+    labelPath="/datapool/workspace/jiaorui/dataset_label"
     drawPath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\draw"
 
-    DD=datasetDeseneization(datasetPath=datasetPath,resultPath=resultPath)
+    DD=datasetDeseneization(datasetPath=datasetPath,resultPath=resultPath,labelPath=labelPath)
     #DD.imageInpainting(imageHeight=512,imageWidth=680,checkpointDir="/datapool/workspace/jiaorui/visual_desensitization/model_logs/Places2")    
     #DD.imageMosaic()
-    DD.getImageShowMinError(number=5)
-    DD.drawRectangle(path=drawPath)
-    
+    #DD.getImageShowMinError(number=5)
+    #DD.drawRectangle(path=drawPath)
+    '''
+    imageNames=os.listdir(datasetPath)
+    for imageName in imageNames:
+        DD.getBoundingBox(imageName)
+    '''
+    DD.getBoundingBox(imageName="abc")
