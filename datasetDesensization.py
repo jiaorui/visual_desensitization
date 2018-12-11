@@ -112,7 +112,7 @@ class datasetDeseneization:
         print(key)
         key='/datapool/workspace/yuanmu/demo_datasets/JPEGImages/looking_through_a_telescope_118.jpg'
 
-        faceBox=faceData[key]
+        #faceBox=faceData[key]
         objectBox=objectData[key]
 
         print(faceBox)
