@@ -102,13 +102,16 @@ class datasetDeseneization:
         facePath=os.path.join(self.labelPath,"run_facerecognition_imgpath2res.pkl")
         objectPath=os.path.join(self.labelPath,"run_darknet_imgpath2res.pkl")
 
-        fixedValue="/datapool/workspace/yuanmu/demo_datasets/JPEGImages/"
+        fixedValue='/datapool/workspace/yuanmu/demo_datasets/JPEGImages/'
 
-        faceData=pickle.load(open(facePath,"rb"))
+        faceData=pickle.load(open(s,"rb"))
         objectData=pickle.load(open(objectPath,"rb"))
 
-        print(faceData)
         key=os.path.join(fixedValue,imageName)
+
+        print(key)
+        key='/datapool/workspace/yuanmu/demo_datasets/JPEGImages/looking_through_a_telescope_118.jpg'
+
         faceBox=faceData[key]
         objectBox=objectData[key]
 
@@ -189,10 +192,9 @@ if __name__=='__main__':
     #DD.getImageShowMinError(number=5)
     #DD.drawRectangle(path=drawPath)
     
-    '''
+    
     imageNames=os.listdir(datasetPath)
     for imageName in imageNames:
         DD.getBoundingBox(imageName)
-    '''
-    DD.getBoundingBox(imageName='abc')
     
+   
