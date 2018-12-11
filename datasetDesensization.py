@@ -34,8 +34,7 @@ class datasetDeseneization:
         for imageName in imageNames:
             image=cv2.imread(os.path.join(self.datasetPath,imageName))
             boundingBoxes=self.getBoundingBox(imageName)
-            result=ID.imageMosaic(image=image,boundingBoxes=boundingBoxes)
-
+            result=ID.ImageDesensitization().imageMosaic(image=image,boundingBoxes=boundingBoxes)
             cv2.imwrite(os.path.join(resultPath,imageName),result)
 
     def getImageShowMinError(self,number=1):
@@ -133,11 +132,12 @@ class datasetDeseneization:
 
 if __name__=='__main__':
 
-    datasetPath="/datapool/workspace/jiaorui/visual_desensitization/image"
-    resultPath="/datapool/workspace/jiaorui/visual_desensitization/result"
+    datasetPath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\image"
+    resultPath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\result"
 
     DD=datasetDeseneization(datasetPath=datasetPath,resultPath=resultPath)
-    #DD.imageInpainting(imageHeight=512,imageWidth=680,checkpointDir="/datapool/workspace/jiaorui/visual_desensitization/model_logs/Places2")    
+    DD.imageInpainting(imageHeight=512,imageWidth=680,checkpointDir="/datapool/workspace/jiaorui/visual_desensitization/model_logs/Places2")    
+    DD.imageMosaic()
     images=DD.getImageShowMinError(number=11)
     print(images)
     images=DD.getImageShowRandom(number=5)
