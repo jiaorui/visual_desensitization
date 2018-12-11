@@ -107,6 +107,7 @@ class datasetDeseneization:
         faceData=pickle.load(open(facePath,"rb"))
         objectData=pickle.load(open(objectPath,"rb"))
 
+        print(faceData)
         key=os.path.join(fixedValue,imageName)
         faceBox=faceData[key]
         objectBox=objectData[key]
@@ -188,8 +189,9 @@ if __name__=='__main__':
     #DD.getImageShowMinError(number=5)
     #DD.drawRectangle(path=drawPath)
     
+    '''
     imageNames=os.listdir(datasetPath)
     for imageName in imageNames:
         DD.getBoundingBox(imageName)
-    
+    '''
     
