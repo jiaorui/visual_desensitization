@@ -104,7 +104,7 @@ class datasetDeseneization:
 
         fixedValue='/datapool/workspace/yuanmu/demo_datasets/JPEGImages/'
 
-        faceData=pickle.load(open(s,"rb"))
+        faceData=pickle.load(open(facePath,"rb"))
         objectData=pickle.load(open(objectPath,"rb"))
 
         key=os.path.join(fixedValue,imageName)
