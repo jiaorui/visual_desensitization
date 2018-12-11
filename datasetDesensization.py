@@ -115,7 +115,7 @@ class datasetDeseneization:
         #faceBox=faceData[key]
         objectBox=objectData[key]
 
-        print(faceBox)
+        #print(faceBox)
         print(objectBox)
 
         boundingBoxes=[]
