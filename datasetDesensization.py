@@ -18,6 +18,7 @@ import ImageDesensitization as ID
 import json
 import heapq
 import random
+import shutil
 
 
 class datasetDeseneization:
@@ -27,6 +28,7 @@ class datasetDeseneization:
         self.labelPath=labelPath
         self.resultPath=resultPath
         self.labelList=labelList
+        self.showImages=[]
 
     def imageMosaic(self):
 
@@ -36,6 +38,32 @@ class datasetDeseneization:
             boundingBoxes=self.getBoundingBox(imageName)
             result=ID.ImageDesensitization().imageMosaic(image=image,boundingBoxes=boundingBoxes)
             cv2.imwrite(os.path.join(resultPath,imageName),result)
+
+
+    def drawRectangle(self,path):
+
+        original_path=os.path.join(path,"original")
+        processed_path=os.path.join(path,"processed")
+
+        if(not os.path.exists(original_path)):
+            os.makedirs(original_path)
+        if(not os.path.exists(processed_path)):
+            os.makedirs(processed_path)
+
+
+        for image in self.showImages:
+
+            boundingBoxes=self.getBoundingBox(image)
+            imageSrc=cv2.imread(os.path.join(self.datasetPath,image))
+            imageDes=cv2.imread(os.path.join(self.resultPath,image))
+
+            for boundingBox in boundingBoxes:
+                cv2.rectangle(imageSrc,(boundingBox['x_top'],boundingBox['y_top']),(boundingBox['x_bottom'],boundingBox['y_bottom']),(0,0,255),8)
+                cv2.rectangle(imageDes,(boundingBox['x_top'],boundingBox['y_top']),(boundingBox['x_bottom'],boundingBox['y_bottom']),(0,0,255),8)
+
+            cv2.imwrite(os.path.join(original_path,image),imageSrc)
+            cv2.imwrite(os.path.join(processed_path,image),imageDes)
+
 
     def getImageShowMinError(self,number=1):
 
@@ -53,21 +81,20 @@ class datasetDeseneization:
 
         minErrors=map(errors.index,heapq.nsmallest(number,errors))
 
-        showImages=[]
+        
         for minError in minErrors:
-            showImages.append(imageNames[minError])
+            self.showImages.append(imageNames[minError])
 
-        return showImages
 
     def getImageShowRandom(self,number=1):
 
         imageNames=os.listdir(self.datasetPath)
         if(number>len(imageNames)):
             number=len(imageNames)
-        showImages=[]
+        
         for index in random.sample(range(len(imageNames)),number):
-            showImages.append(imageNames[index])
-        return showImages
+            self.showImages.append(imageNames[index])
+        
 
     def getBoundingBox(self,imageName):
 
@@ -134,11 +161,11 @@ if __name__=='__main__':
 
     datasetPath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\image"
     resultPath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\result"
+    drawPath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\draw"
 
     DD=datasetDeseneization(datasetPath=datasetPath,resultPath=resultPath)
-    DD.imageInpainting(imageHeight=512,imageWidth=680,checkpointDir="/datapool/workspace/jiaorui/visual_desensitization/model_logs/Places2")    
-    DD.imageMosaic()
-    images=DD.getImageShowMinError(number=11)
-    print(images)
-    images=DD.getImageShowRandom(number=5)
-    print(images)
+    #DD.imageInpainting(imageHeight=512,imageWidth=680,checkpointDir="/datapool/workspace/jiaorui/visual_desensitization/model_logs/Places2")    
+    #DD.imageMosaic()
+    DD.getImageShowMinError(number=5)
+    DD.drawRectangle(path=drawPath)
+    
