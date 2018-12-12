@@ -12,6 +12,8 @@ import ImageDesensitization as ID
 import numpy as np
 import argparse
 import json
+import neuralgym as ng
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--data', default='', type=str,
@@ -27,6 +29,7 @@ parser.add_argument('--show',default='',type=str,
 
 if __name__=="__main__":
 
+    ng.get_gpus(1)
     args=parser.parse_args()
 
     datasetPath=args.data
@@ -35,10 +38,12 @@ if __name__=="__main__":
     resultPath=args.result
     showPath=args.show
 
-    datasetPath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\datasetJiaorui"
-    labelPath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\label"
-    configPath='C:\\Users\\jiao\\Desktop\\visualDesensitization\\graphmask.json'
-    showPath='C:\\Users\\jiao\\Desktop\\visualDesensitization\\draw'
+    path="C:\\Users\\jiao\\Desktop\\visualDesensitization"
+    datasetPath=os.path.join(path,"dataset3")
+    labelPath=os.path.join(path,"label")
+    configPath=os.path.join(path,"graphmask.json")
+    showPath=os.path.join(path,"draw")
+    resultPath=os.path.join(path,"result")
 
     if(not os.path.exists(datasetPath)):
         print("the source data path does not exist")
@@ -49,10 +54,17 @@ if __name__=="__main__":
         sys.exit(0)
 
     if(labelPath==''):
-        labelPath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\label"
+        print("please input the label path: --label + label path")
+        sys.exit(0)
 
     if(resultPath==''):
-        resultPath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\result"
+        print("please input the result path: --result + result path")
+        sys.exit(0)
+
+    if(showPath==''):
+        print('please input the path where the images of showing: --show + show path')
+        sys.exit(0)
+
 
 
     with open(configPath) as f_load:
@@ -71,11 +83,12 @@ if __name__=="__main__":
 
     if(method==0):
         dataDesen.imageMosaic()
-        dataDesen.getImageShowRandom(number=10)
+        dataDesen.getImageShowRandom(number=100)
         dataDesen.drawRectangle(showPath)
     else:
-        dataDesen.imageInpainting()
-        dataDesen.getImageShowMinError(number=10)
+        #the image height and width is associted to the dataset , now we use the [places] dataset
+        dataDesen.imageInpainting(imageHeight=512,imageWidth=680,checkpointDir="C:\\Users\\jiao\\Desktop\\visualDesensitization\\model_logs\\Places2")
+        dataDesen.getImageShowMinError(number=100)
         dataDesen.drawRectangle(showPath)
 
 

@@ -36,9 +36,9 @@ class datasetDeseneization:
 
         imageNames=os.listdir(self.datasetPath)
         for imageName in imageNames:
-            print(imageName)
+            #print(imageName)
             image=cv2.imread(os.path.join(self.datasetPath,imageName))
-            print(image.shape)
+            #print(image.shape)
             boundingBoxes=self.getBoundingBox(imageName)
             result=ID.ImageDesensitization().imageMosaic(image=image,boundingBoxes=boundingBoxes)
             cv2.imwrite(os.path.join(self.resultPath,imageName),result)
@@ -148,13 +148,18 @@ class datasetDeseneization:
         for (label,conf,(x,y,w,h)) in objectBoxes:
             if(label in self.labelList):
                 boundingBox={}
+                '''
                 boundingBox['x_top']=int(max(x-w*0.5,0))
                 boundingBox['x_bottom']=int(min(x+w*0.5,height))
                 boundingBox['y_top']=int(max(y-h*0.5,0))
                 boundingBox['y_bottom']=int(min(y+h*0.5,width))
-
-                print((x,y,w,h))
-                print(boundingBox)
+                '''
+                boundingBox['x_top']=int(max(x-w*0.5,0))
+                boundingBox['x_bottom']=int(min(x+w*0.5,width))
+                boundingBox['y_top']=int(max(y-h*0.5,0))
+                boundingBox['y_bottom']=int(min(y+h*0.5,height))
+                #print((x,y,w,h))
+                #print(boundingBox)
                 boundingBoxes.append(boundingBox)
 
         return boundingBoxes
@@ -192,7 +197,7 @@ class datasetDeseneization:
                 x2=boundingBox['x_bottom']
                 y1=boundingBox['y_top']
                 y2=boundingBox['y_bottom']
-                mask[x1:x2,y1:y2,:]=255
+                mask[y1:y2,x1:x2,:]=255
 
             image = cv2.resize(image, (imageWidth, imageHeight))
             mask = cv2.resize(mask, (imageWidth, imageHeight))
