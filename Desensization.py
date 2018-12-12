@@ -39,7 +39,7 @@ if __name__=="__main__":
     showPath=args.show
 
     path="."
-    datasetPath=os.path.join(path,"dataset3")
+    datasetPath=os.path.join(path,"datasetJiaorui")
     labelPath=os.path.join(path,"label")
     configPath=os.path.join(path,"graphmask.json")
     showPath=os.path.join(path,"draw")
