@@ -38,7 +38,7 @@ if __name__=="__main__":
     resultPath=args.result
     showPath=args.show
 
-    path="C:\\Users\\jiao\\Desktop\\visualDesensitization"
+    path="."
     datasetPath=os.path.join(path,"dataset3")
     labelPath=os.path.join(path,"label")
     configPath=os.path.join(path,"graphmask.json")
@@ -87,7 +87,8 @@ if __name__=="__main__":
         dataDesen.drawRectangle(showPath)
     else:
         #the image height and width is associted to the dataset , now we use the [places] dataset
-        dataDesen.imageInpainting(imageHeight=512,imageWidth=680,checkpointDir="C:\\Users\\jiao\\Desktop\\visualDesensitization\\model_logs\\Places2")
+        checkpointDir=os.path.join(path,'model_logs/Places2')
+        dataDesen.imageInpainting(imageHeight=512,imageWidth=680,checkpointDir=checkpointDir)
         dataDesen.getImageShowMinError(number=100)
         dataDesen.drawRectangle(showPath)
 
