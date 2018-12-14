@@ -38,8 +38,8 @@ if __name__=="__main__":
     resultPath=args.result
     showPath=args.show
 
-    path="C://Users//jiao//Desktop//visualDesensitization"
-    datasetPath=os.path.join(path,"datasetJiaorui")
+    path="."
+    datasetPath=os.path.join(path,"ImageDog")
     labelPath=os.path.join(path,"label")
     configPath=os.path.join(path,"graphmask.json")
     showPath=os.path.join(path,"draw")
