@@ -38,7 +38,7 @@ if __name__=="__main__":
     resultPath=args.result
     showPath=args.show
 
-    path="."
+    path="C://Users//jiao//Desktop//visualDesensitization"
     datasetPath=os.path.join(path,"datasetJiaorui")
     labelPath=os.path.join(path,"label")
     configPath=os.path.join(path,"graphmask.json")
@@ -65,7 +65,7 @@ if __name__=="__main__":
         print('please input the path where the images of showing: --show + show path')
         sys.exit(0)
 
-
+    showImageNumber=100
 
     with open(configPath) as f_load:
         config=json.load(f_load)
@@ -83,13 +83,17 @@ if __name__=="__main__":
 
     if(method==0):
         dataDesen.imageMosaic()
-        dataDesen.getImageShowRandom(number=100)
+        dataDesen.getImageShowRandom(number=showImageNumber)
         dataDesen.drawRectangle(showPath)
-    else:
+    elif(method==1):
         #the image height and width is associted to the dataset , now we use the [places] dataset
         checkpointDir=os.path.join(path,'model_logs/Places2')
         dataDesen.imageInpainting(imageHeight=512,imageWidth=680,checkpointDir=checkpointDir)
-        dataDesen.getImageShowMinError(number=100)
+        dataDesen.getImageShowMinError(number=showImageNumber)
+        dataDesen.drawRectangle(showPath)
+    else:
+        dataDesen.imageBlur()
+        dataDesen.getImageShowRandom(number=showImageNumber)
         dataDesen.drawRectangle(showPath)
 
 

@@ -50,8 +50,22 @@ class ImageDesensitization:
         y1=boundingBox['y_top']
         y2=boundingBox['y_bottom']
 
-        mask[x1:x2,y1:y2,:]=255
+        mask[y1:y2,x1:x2,:]=255
         return mask
+
+    def imageBlur(self,image,boundingBoxes):
+
+        for boundingBox in boundingBoxes:
+            x1=boundingBox['x_top']
+            x2=boundingBox['x_bottom']
+            y1=boundingBox['y_top']
+            y2=boundingBox['y_bottom']
+
+            imageBlurSrc=image[y1:y2,x1:x2,:]
+            imageBlurDes=cv2.GaussianBlur(imageBlurSrc,ksize=(25,25),sigmaX=0)
+            image[y1:y2,x1:x2,:]=imageBlurDes
+        return image
+
 
     def saveImage(self,savePath=''):
 
@@ -62,8 +76,14 @@ class ImageDesensitization:
 if __name__=='__main__':
 
     ID=ImageDesensitization()
-    boundingBoxes=[{'x_top':10,'x_bottom':2000,'y_top':10,'y_bottom':2000},{'x_top':200,'x_bottom':300,'y_top':200,'y_bottom':300}]
-    
-    
+    boundingBoxes=[{'x_top':10,'x_bottom':200,'y_top':10,'y_bottom':200},{'x_top':200,'x_bottom':300,'y_top':200,'y_bottom':300}]
+    imagePath="C:\\Users\\jiao\\Desktop\\visualDesensitization\\datasetFace\\applauding_002.jpg"
+
+    image=cv2.imread(imagePath)
+    des=ID.imageBlur(image,boundingBoxes)
+    #des=cv2.GaussianBlur(image,ksize=(25,25),sigmaX=0)
+    cv2.imshow("retult",des)
+    cv2.waitKey()
+    cv2.destroyAllWindows()
 
 

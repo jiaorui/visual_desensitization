@@ -35,14 +35,24 @@ class datasetDeseneization:
     def imageMosaic(self):
 
         imageNames=os.listdir(self.datasetPath)
+        imageOperation=ID.ImageDesensitization()
         for imageName in imageNames:
             #print(imageName)
             image=cv2.imread(os.path.join(self.datasetPath,imageName))
             #print(image.shape)
             boundingBoxes=self.getBoundingBox(imageName)
-            result=ID.ImageDesensitization().imageMosaic(image=image,boundingBoxes=boundingBoxes)
+            result=imageOperation.imageMosaic(image=image,boundingBoxes=boundingBoxes)
             cv2.imwrite(os.path.join(self.resultPath,imageName),result)
 
+    def imageBlur(self):
+
+        imagesNames=os.listdir(self.datasetPath)
+        imageOperation=ID.ImageDesensitization()
+        for imageName in imagesNames:
+            image=cv2.imread(os.path.join(self.datasetPath,imageName))
+            boundingBoxes=self.getBoundingBox(imageName)
+            result=imageOperation.imageBlur(image=image,boundingBoxes=boundingBoxes)
+            cv2.imwrite(os.path.join(self.resultPath,imageName),result)
 
     def drawRectangle(self,path):
 
@@ -62,8 +72,8 @@ class datasetDeseneization:
             imageDes=cv2.imread(os.path.join(self.resultPath,image))
 
             for boundingBox in boundingBoxes:
-                cv2.rectangle(imageSrc,(boundingBox['x_top'],boundingBox['y_top']),(boundingBox['x_bottom'],boundingBox['y_bottom']),(0,0,255),8)
-                cv2.rectangle(imageDes,(boundingBox['x_top'],boundingBox['y_top']),(boundingBox['x_bottom'],boundingBox['y_bottom']),(0,0,255),8)
+                cv2.rectangle(imageSrc,(boundingBox['x_top'],boundingBox['y_top']),(boundingBox['x_bottom'],boundingBox['y_bottom']),(0,0,255),5)
+                #cv2.rectangle(imageDes,(boundingBox['x_top'],boundingBox['y_top']),(boundingBox['x_bottom'],boundingBox['y_bottom']),(0,0,255),8)
 
             cv2.imwrite(os.path.join(original_path,image),imageSrc)
             cv2.imwrite(os.path.join(processed_path,image),imageDes)
@@ -234,9 +244,8 @@ if __name__=='__main__':
     #DD.getImageShowMinError(number=5)
     #DD.drawRectangle(path=drawPath)
     
+    DD.imageBlur()
+    DD.getImageShowRandom(number=5)
+    DD.drawRectangle(drawPath)
     
-    imageNames=os.listdir(datasetPath)
-    for imageName in imageNames:
-        print(imageName)
-        print(DD.getBoundingBox(imageName))
     
