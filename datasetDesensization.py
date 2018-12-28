@@ -61,8 +61,16 @@ class datasetDeseneization:
 
         if(not os.path.exists(original_path)):
             os.makedirs(original_path)
+        else:
+            for file in os.listdir(original_path):
+                os.remove(os.path.join(original_path,file))
+
         if(not os.path.exists(processed_path)):
             os.makedirs(processed_path)
+        else:
+            for file in os.listdir(original_path):
+                os.remove(os.path.join(original_path,file))
+
 
 
         for image in self.showImages:

@@ -13,6 +13,7 @@ import numpy as np
 import argparse
 import json
 import neuralgym as ng
+import time
 
 
 parser = argparse.ArgumentParser()
@@ -29,6 +30,7 @@ parser.add_argument('--show',default='',type=str,
 
 if __name__=="__main__":
 
+    t0=time.clock()
     ng.get_gpus(1)
     args=parser.parse_args()
 
@@ -38,12 +40,16 @@ if __name__=="__main__":
     resultPath=args.result
     showPath=args.show
 
-    path="."
-    datasetPath=os.path.join(path,"ImageDog")
+    
+    path="C:\\Users\\jiao\\Desktop\\visualDesensitization"
+    '''
+    datasetPath=os.path.join(path,"ImagePerson")
     labelPath=os.path.join(path,"label")
     configPath=os.path.join(path,"graphmask.json")
     showPath=os.path.join(path,"draw")
     resultPath=os.path.join(path,"result")
+    '''
+
 
     if(not os.path.exists(datasetPath)):
         print("the source data path does not exist")
@@ -96,4 +102,4 @@ if __name__=="__main__":
         dataDesen.getImageShowRandom(number=showImageNumber)
         dataDesen.drawRectangle(showPath)
 
-
+    print(time.clock()+'seconds')
