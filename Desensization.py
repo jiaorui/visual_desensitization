@@ -31,7 +31,7 @@ parser.add_argument('--show',default='',type=str,
 if __name__=="__main__":
 
     t0=time.clock()
-    ng.get_gpus(1)
+    #ng.get_gpus(1)
     args=parser.parse_args()
 
     datasetPath=args.data
@@ -42,13 +42,14 @@ if __name__=="__main__":
 
     
     path="C:\\Users\\jiao\\Desktop\\visualDesensitization"
-    '''
-    datasetPath=os.path.join(path,"ImagePerson")
+    
+    
+    datasetPath=os.path.join(path,"test")
     labelPath=os.path.join(path,"label")
-    configPath=os.path.join(path,"graphmask.json")
+    configPath=os.path.join(path,"config.json")
     showPath=os.path.join(path,"draw")
     resultPath=os.path.join(path,"result")
-    '''
+    
 
 
     if(not os.path.exists(datasetPath)):
@@ -102,4 +103,4 @@ if __name__=="__main__":
         dataDesen.getImageShowRandom(number=showImageNumber)
         dataDesen.drawRectangle(showPath)
 
-    print(time.clock()+'seconds')
+    print(str(time.clock())+'seconds')
